@@ -31,6 +31,24 @@ func NewClient(clientId, clientSecret string) (*Api, error) {
 	}, err
 }
 
+func (api Api) GetTracks(query string) []*soundcloud.Track {
+	url := fmt.Sprintf("%s/tracks?client_id=%s&q=%s", apiBaseUrl, api.ClientId, query)
+	resp, err := http.DefaultClient.Get(url)
+	defer resp.Body.Close()
+
+	if err != nil {
+		log.Print(err.Error())
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	response := make([]*soundcloud.Track, 0)
+	if err = json.Unmarshal(body, &response); err != nil {
+		log.Println("unmarshal error: " + err.Error())
+	}
+
+	return response
+}
+
 func (api Api) GetFavorites(userId int) []*soundcloud.Track {
 	url := fmt.Sprintf("%s/users/%d/favorites?client_id=%s", apiBaseUrl, userId, api.ClientId)
 	resp, err := http.DefaultClient.Get(url)
