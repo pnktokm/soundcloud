@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 )
 
 type Api struct {
@@ -31,7 +32,7 @@ func NewClient(clientId, clientSecret string) (*Api, error) {
 }
 
 func (api Api) GetTracks(query string) ([]*Track, error) {
-	url := fmt.Sprintf("%s/tracks?client_id=%s&q=%s", apiBaseUrl, api.ClientId, query)
+	url := fmt.Sprintf("%s/tracks?client_id=%s&q=%s", apiBaseUrl, api.ClientId, url.QueryEscape(query))
 	resp, err := http.DefaultClient.Get(url)
 	defer resp.Body.Close()
 

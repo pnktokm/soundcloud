@@ -12,19 +12,19 @@ type Track struct {
 	Uri                 string `json:"uri"`
 	Sharing             string `json:"sharing"`
 	EmbeddableBy        string `json:"embeddable_by"`
-	PurchaseUrl         string `json:"purchase_url"`
+	PurchaseUrl         string `json:"purchase_url, omitempty"`
 	ArtworkUrl          string `json:"artwork_url, omitempty"`
-	Description         string `json:"description"`
+	Description         string `json:"description, omitempty"`
 	Label               struct{}
 	Duration            int `json:"duration"`
-	Genre               string `json:"genre"`
+	Genre               string `json:"genre, omitempty"`
 	TagList             string `json:"tag_list"`
-	LabelId             int `json:"label_id"`
-	LabelName           string `json:"label_name"`
-	Release             int `json:"release"`
-	ReleaseDay          int `json:"release_day"`
-	ReleaseMonth        int `json:"release_month"`
-	ReleaseYear         int `json:"release_year"`
+	LabelId             int `json:"label_id, omitempty"`
+	LabelName           string `json:"label_name, omitempty"`
+	//Release             int `json:"release, omitempty"` // string value
+	ReleaseDay          int `json:"release_day, omitempty"`
+	ReleaseMonth        int `json:"release_month, omitempty"`
+	ReleaseYear         int `json:"release_year, omitempty"`
 	Streamable          bool `json:"streamable"`
 	Downloadable        bool `json:"downloadable"`
 	State               string `json:"state"`
@@ -33,11 +33,11 @@ type Track struct {
 	WaveformUrl         string `json:"waveform_url"`
 	DownloadUrl         string `json:"download_url"`
 	StreamUrl           string `json:"stream_url"`
-	VideoUrl            string `json:"video_url"`
-	Bpm                 int `json:"bpm"`
+	VideoUrl            string `json:"video_url, omitempty"`
+	Bpm                 int `json:"bpm, omitempty"`
 	Commentable         bool `json:"commentable"`
-	ISRC                string `json:"isrc"`
-	KeySignature        string `json:"key_signature"`
+	ISRC                string `json:"isrc, omitempty"`
+	KeySignature        string `json:"key_signature, omitempty"`
 	CommentCount        int `json:"comment_count"`
 	DownloadCount       int `json:"download_count"`
 	PlaybackCount       int `json:"playback_count"`
@@ -48,4 +48,5 @@ type Track struct {
 	AssetData           []byte `json:"asset_data"`
 	ArtworkData         []byte `json:"artwork_data"`
 	UserFavorite        bool   `json:"user_favorite"`
+	AttachmentsUri      string `json:"attachments_url, omitempty"`
 }
