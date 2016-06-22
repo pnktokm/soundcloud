@@ -3,7 +3,6 @@ package soundcloud
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/yanatan16/golang-soundcloud/soundcloud"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -31,7 +30,7 @@ func NewClient(clientId, clientSecret string) (*Api, error) {
 	}, err
 }
 
-func (api Api) GetTracks(query string) []*soundcloud.Track {
+func (api Api) GetTracks(query string) ([]*Track, error) {
 	url := fmt.Sprintf("%s/tracks?client_id=%s&q=%s", apiBaseUrl, api.ClientId, query)
 	resp, err := http.DefaultClient.Get(url)
 	defer resp.Body.Close()
@@ -41,15 +40,15 @@ func (api Api) GetTracks(query string) []*soundcloud.Track {
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
-	response := make([]*soundcloud.Track, 0)
+	response := make([]*Track, 0)
 	if err = json.Unmarshal(body, &response); err != nil {
 		log.Println("unmarshal error: " + err.Error())
 	}
 
-	return response
+	return response, err
 }
 
-func (api Api) GetFavorites(userId int) []*soundcloud.Track {
+func (api Api) GetFavorites(userId int) ([]*Track, error) {
 	url := fmt.Sprintf("%s/users/%d/favorites?client_id=%s", apiBaseUrl, userId, api.ClientId)
 	resp, err := http.DefaultClient.Get(url)
 	defer resp.Body.Close()
@@ -59,10 +58,10 @@ func (api Api) GetFavorites(userId int) []*soundcloud.Track {
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
-	response := make([]*soundcloud.Track, 0)
+	response := make([]*Track, 0)
 	if err = json.Unmarshal(body, &response); err != nil {
 		log.Println("unmarshal error: " + err.Error())
 	}
 
-	return response
+	return response, err
 }
